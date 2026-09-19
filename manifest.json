@@ -1,0 +1,10 @@
+{
+  "name": "Fox Protege • Portaria",
+  "short_name": "Fox Protege",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#eef1f5",
+  "theme_color": "#111827",
+  "lang": "pt-BR",
+  "description": "Sistema de recebimento e entrega de encomendas para portaria."
+}
