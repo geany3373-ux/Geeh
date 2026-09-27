@@ -1,4 +1,4 @@
-const CACHE = "fox-protege-v3";
+const CACHE = "fox-protege-v4";
 
 const ASSETS = [
   "./",
