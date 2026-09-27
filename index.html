@@ -227,23 +227,20 @@ function cadastrarUsuario() {
   alert("Usuário cadastrado com sucesso!");
 }
 
-function sairSistema() {
+
+ function sairSistema() {
   localStorage.removeItem("foxUsuarioLogado");
-  location.reload();
-}
 
-window.addEventListener("load", function() {
-  const logado = localStorage.getItem("foxUsuarioLogado");
+  const painel = document.getElementById("painelAdmin");
+  if (painel) painel.remove();
 
-  if (logado) {
-    const usuario = JSON.parse(logado);
-    document.getElementById("loginScreen").style.display = "none";
-
-    if (usuario.tipo === "admin") {
-      mostrarPainelAdministrador();
-    }
+  const login = document.getElementById("loginScreen");
+  if (login) {
+    login.style.display = "flex";
+    document.getElementById("loginUsuario").value = "";
+    document.getElementById("loginSenha").value = "";
+    document.getElementById("loginErro").textContent = "";
   }
-});
-  </script>
+} </script>
 </body>
 </html>
