@@ -131,7 +131,6 @@ const USUARIOS_FOX = [
     tipo: "admin"
   }
 ];
-
 function entrarSistema() {
   const usuario = document.getElementById("loginUsuario").value.trim();
   const senha = document.getElementById("loginSenha").value;
@@ -162,9 +161,9 @@ function entrarSistema() {
 
   document.getElementById("loginScreen").style.display = "none";
 
-    mostrarPainelAdministrador();
-  }
+  mostrarPainelAdministrador();
 }
+
 
 function mostrarPainelAdministrador() {
   if (document.getElementById("painelUsuario")) return;
