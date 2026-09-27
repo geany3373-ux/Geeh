@@ -137,7 +137,16 @@ function entrarSistema() {
   const senha = document.getElementById("loginSenha").value;
   const erro = document.getElementById("loginErro");
 
-  const encontrado = USUARIOS_FOX.find(
+  const usuariosCadastrados = JSON.parse(
+    localStorage.getItem("foxUsuarios") || "[]"
+  );
+
+  const todosUsuarios = [
+    ...USUARIOS_FOX,
+    ...usuariosCadastrados
+  ];
+
+  const encontrado = todosUsuarios.find(
     u => u.usuario === usuario && u.senha === senha
   );
 
@@ -146,7 +155,10 @@ function entrarSistema() {
     return;
   }
 
-  localStorage.setItem("foxUsuarioLogado", JSON.stringify(encontrado));
+  localStorage.setItem(
+    "foxUsuarioLogado",
+    JSON.stringify(encontrado)
+  );
 
   document.getElementById("loginScreen").style.display = "none";
 
@@ -190,7 +202,28 @@ function cadastrarUsuario() {
   const senha = prompt("Digite a senha:");
   if (!senha) return;
 
-  alert("Usuário cadastrado nesta versão: " + usuario);
+  let usuarios = JSON.parse(
+    localStorage.getItem("foxUsuarios") || "[]"
+  );
+
+  if (usuarios.some(u => u.usuario === usuario)) {
+    alert("Esse usuário já existe.");
+    return;
+  }
+
+  usuarios.push({
+    usuario: usuario,
+    senha: senha,
+    nome: usuario,
+    tipo: "usuario"
+  });
+
+  localStorage.setItem(
+    "foxUsuarios",
+    JSON.stringify(usuarios)
+  );
+
+  alert("Usuário cadastrado com sucesso!");
 }
 
 function sairSistema() {
