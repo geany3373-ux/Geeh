@@ -133,25 +133,28 @@ const USUARIOS_FOX = [
 ];
 
 function entrarSistema() {
+  alert("A função de login foi chamada!");
   const usuario = document.getElementById("loginUsuario").value.trim();
   const senha = document.getElementById("loginSenha").value;
   const erro = document.getElementById("loginErro");
+
+  erro.textContent = "";
 
   const usuariosCadastrados = JSON.parse(
     localStorage.getItem("foxUsuarios") || "[]"
   );
 
   const administrador = {
-  usuario: "admin",
-  senha: "1234",
-  nome: "Administrador",
-  tipo: "admin"
-};
+    usuario: "admin",
+    senha: "1234",
+    nome: "Administrador",
+    tipo: "admin"
+  };
 
-const todosUsuarios = [
-  administrador,
-  ...usuariosCadastrados
-];
+  const todosUsuarios = [
+    administrador,
+    ...usuariosCadastrados
+  ];
 
   const encontrado = todosUsuarios.find(
     u => u.usuario === usuario && u.senha === senha
@@ -169,9 +172,12 @@ const todosUsuarios = [
 
   document.getElementById("loginScreen").style.display = "none";
 
-  mostrarPainelAdministrador();
+  if (encontrado.tipo === "admin") {
+    mostrarPainelAdministrador();
+  } else {
+    mostrarSistemaPrincipal();
+  }
 }
-
 function mostrarPainelAdministrador() {
   if (document.getElementById("painelUsuario")) return;
 
