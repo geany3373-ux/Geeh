@@ -131,6 +131,7 @@ const USUARIOS_FOX = [
     tipo: "admin"
   }
 ];
+
 function entrarSistema() {
   const usuario = document.getElementById("loginUsuario").value.trim();
   const senha = document.getElementById("loginSenha").value;
@@ -140,10 +141,17 @@ function entrarSistema() {
     localStorage.getItem("foxUsuarios") || "[]"
   );
 
-  const todosUsuarios = [
-    ...USUARIOS_FOX,
-    ...usuariosCadastrados
-  ];
+  const administrador = {
+  usuario: "admin",
+  senha: "1234",
+  nome: "Administrador",
+  tipo: "admin"
+};
+
+const todosUsuarios = [
+  administrador,
+  ...usuariosCadastrados
+];
 
   const encontrado = todosUsuarios.find(
     u => u.usuario === usuario && u.senha === senha
@@ -163,7 +171,6 @@ function entrarSistema() {
 
   mostrarPainelAdministrador();
 }
-
 
 function mostrarPainelAdministrador() {
   if (document.getElementById("painelUsuario")) return;
