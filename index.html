@@ -132,9 +132,9 @@ const USUARIOS_FOX = [
     tipo: "admin"
   }
 ];
-
 function entrarSistema() {
   alert("A função de login foi chamada!");
+
   const usuario = document.getElementById("loginUsuario").value.trim();
   const senha = document.getElementById("loginSenha").value;
   const erro = document.getElementById("loginErro");
@@ -145,38 +145,35 @@ function entrarSistema() {
     localStorage.getItem("foxUsuarios") || "[]"
   );
 
-  const administrador = {
-    usuario: "admin",
-    senha: "1234",
-    nome: "Administrador",
-    tipo: "admin"
-  };
-
   const todosUsuarios = [
-    administrador,
+    ...USUARIOS_FOX,
     ...usuariosCadastrados
   ];
 
-  const encontrado = todosUsuarios.find(
+  const usuarioEncontrado = todosUsuarios.find(
     u => u.usuario === usuario && u.senha === senha
   );
 
-  if (!encontrado) {
+  if (!usuarioEncontrado) {
     erro.textContent = "Usuário ou senha incorretos.";
     return;
   }
 
   localStorage.setItem(
     "foxUsuarioLogado",
-    JSON.stringify(encontrado)
+    JSON.stringify(usuarioEncontrado)
   );
 
-  document.getElementById("loginScreen").style.display = "none";
+  alert("Login realizado com sucesso!");
 
-  if (encontrado.tipo === "admin") {
-    mostrarPainelAdministrador();
-  } else {
-    mostrarSistemaPrincipal();
+  const login = document.getElementById("loginScreen");
+  if (login) {
+    login.style.display = "none";
+  }
+
+  const app = document.getElementById("app");
+  if (app) {
+    app.style.display = "block";
   }
 }
 function mostrarPainelAdministrador() {
