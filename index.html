@@ -133,65 +133,29 @@ const USUARIOS_FOX = [
   }
 ];
 function entrarSistema() {
-  alert("A função de login foi chamada!");
+  alert("1 - O botão chamou a função!");
 
-  const campoUsuario = document.getElementById("loginUsuario");
-  const campoSenha = document.getElementById("loginSenha");
-  const erro = document.getElementById("loginErro");
+  const usuario = document.getElementById("loginUsuario");
+  const senha = document.getElementById("loginSenha");
 
-  if (!campoUsuario || !campoSenha || !erro) {
-    alert("Erro: campos do login não foram encontrados.");
+  if (!usuario) {
+    alert("2 - NÃO encontrei loginUsuario");
     return;
   }
 
-  const usuario = campoUsuario.value.trim();
-  const senha = campoSenha.value;
-
-  erro.textContent = "";
-
-  const usuariosCadastrados = JSON.parse(
-    localStorage.getItem("foxUsuarios") || "[]"
-  );
-
-  const todosUsuarios = [
-    ...USUARIOS_FOX,
-    ...usuariosCadastrados
-  ];
-
-  const usuarioEncontrado = todosUsuarios.find(
-    u => u.usuario === usuario && u.senha === senha
-  );
-
-  if (!usuarioEncontrado) {
-    erro.textContent = "Usuário ou senha incorretos.";
+  if (!senha) {
+    alert("3 - NÃO encontrei loginSenha");
     return;
   }
 
-  localStorage.setItem(
-    "foxUsuarioLogado",
-    JSON.stringify(usuarioEncontrado)
+  alert("4 - Encontrei os campos!");
+
+  alert(
+    "Usuário digitado: " + usuario.value +
+    "\nSenha digitada: " + senha.value
   );
-
-  alert("Login realizado com sucesso!");
-
-  const login = document.getElementById("loginScreen");
-  if (login) {
-    login.style.display = "none";
-  }
-
-  const app = document.getElementById("app");
-  if (app) {
-    app.style.display = "block";
-  }
-
-  // Mostra o painel somente se a função existir
-  if (
-    usuarioEncontrado.tipo === "admin" &&
-    typeof mostrarPainelAdministrador === "function"
-  ) {
-    mostrarPainelAdministrador();
-  }
 }
+
 function mostrarPainelAdministrador() {
   if (document.getElementById("painelUsuario")) return;
 
