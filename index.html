@@ -135,9 +135,17 @@ const USUARIOS_FOX = [
 function entrarSistema() {
   alert("A função de login foi chamada!");
 
-  const usuario = document.getElementById("loginUsuario").value.trim();
-  const senha = document.getElementById("loginSenha").value;
+  const campoUsuario = document.getElementById("loginUsuario");
+  const campoSenha = document.getElementById("loginSenha");
   const erro = document.getElementById("loginErro");
+
+  if (!campoUsuario || !campoSenha || !erro) {
+    alert("Erro: campos do login não foram encontrados.");
+    return;
+  }
+
+  const usuario = campoUsuario.value.trim();
+  const senha = campoSenha.value;
 
   erro.textContent = "";
 
@@ -166,8 +174,6 @@ function entrarSistema() {
 
   alert("Login realizado com sucesso!");
 
-mostrarPainelAdministrador();
-
   const login = document.getElementById("loginScreen");
   if (login) {
     login.style.display = "none";
@@ -176,6 +182,14 @@ mostrarPainelAdministrador();
   const app = document.getElementById("app");
   if (app) {
     app.style.display = "block";
+  }
+
+  // Mostra o painel somente se a função existir
+  if (
+    usuarioEncontrado.tipo === "admin" &&
+    typeof mostrarPainelAdministrador === "function"
+  ) {
+    mostrarPainelAdministrador();
   }
 }
 function mostrarPainelAdministrador() {
