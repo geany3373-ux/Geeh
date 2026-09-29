@@ -37,7 +37,7 @@ button.secondary{background:#e5e7eb;color:#111827}.grid{display:grid;grid-templa
 
     <button 
       type="button"
-  onclick="alert('TESTE DO BOTÃO');"
+  onclick="entrarSistema();"
   style="width:100%;padding:13px;margin-top:10px;border:0;border-radius:10px;background:#111827;color:white;font-size:16px;">
   Entrar
 </button>
@@ -99,6 +99,14 @@ function salvar(){
  encomendas.unshift(e);persist();["bloco","apto","morador","transportadora","codigo","obs"].forEach(x=>$(x).value="");render();
  alert("Encomenda registrada!");
 }
+  function salvar(){
+ const e={id:Date.now(),bloco:$("bloco").value.trim(),apto:$("apto").value.trim(),morador:$("morador").value.trim(),
+ transportadora:$("transportadora").value.trim(),codigo:$("codigo").value.trim(),obs:$("obs").value.trim(),
+ recebido:new Date().toLocaleString("pt-BR"),status:"Pendente",assinatura:null};
+ if(!e.bloco||!e.apto||!e.morador){alert("Preencha bloco, apartamento e nome do morador.");return}
+ encomendas.unshift(e);persist();["bloco","apto","morador","transportadora","codigo","obs"].forEach(x=>$(x).value="");render();
+ alert("Encomenda registrada!");
+  }
 function persist(){localStorage.setItem(KEY,JSON.stringify(encomendas))}
 function render(){
  const q=$("busca").value.toLowerCase();
@@ -134,29 +142,52 @@ const USUARIOS_FOX = [
     tipo: "admin"
   }
 ];
-function entrarSistema() {
-  alert("1 - O botão chamou a função!");
 
+function entrarSistema() {
   const usuario = document.getElementById("loginUsuario");
   const senha = document.getElementById("loginSenha");
+  const erro = document.getElementById("loginErro");
 
-  if (!usuario) {
-    alert("2 - NÃO encontrei loginUsuario");
+  if (!usuario || !senha || !erro) {
+    alert("Erro: não encontrei os campos do login.");
     return;
   }
 
-  if (!senha) {
-    alert("3 - NÃO encontrei loginSenha");
-    return;
-  }
+  erro.textContent = "";
 
-  alert("4 - Encontrei os campos!");
-
-  alert(
-    "Usuário digitado: " + usuario.value +
-    "\nSenha digitada: " + senha.value
+  const usuariosCadastrados = JSON.parse(
+    localStorage.getItem("foxUsuarios") || "[]"
   );
+
+  const todosUsuarios = [
+    ...USUARIOS_FOX,
+    ...usuariosCadastrados
+  ];
+
+  const usuarioEncontrado = todosUsuarios.find(function(u) {
+    return u.usuario === usuario.value.trim() &&
+           u.senha === senha.value;
+  });
+
+  if (!usuarioEncontrado) {
+    erro.textContent = "Usuário ou senha incorretos.";
+    return;
+  }
+
+  localStorage.setItem(
+    "foxUsuarioLogado",
+    JSON.stringify(usuarioEncontrado)
+  );
+
+  const login = document.getElementById("loginScreen");
+  const app = document.getElementById("app");
+
+  if (login) login.style.display = "none";
+  if (app) app.style.display = "block";
+
+  alert("Login realizado com sucesso!");
 }
+
 
 function mostrarPainelAdministrador() {
   if (document.getElementById("painelUsuario")) return;
