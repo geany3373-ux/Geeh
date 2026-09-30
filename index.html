@@ -133,7 +133,7 @@ render();
 <script>
 if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{})); }
 </script>
-  <script>
+    <script>
 const USUARIOS_FOX = [
   {
     usuario: "admin",
@@ -192,6 +192,7 @@ function entrarSistema() {
 
   alert("Login realizado com sucesso!");
 }
+    <script>
 function mostrarPainelAdministrador() {
   if (document.getElementById("painelUsuario")) return;
 
