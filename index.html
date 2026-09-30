@@ -182,13 +182,16 @@ function entrarSistema() {
   const login = document.getElementById("loginScreen");
   const app = document.getElementById("app");
 
-  if (login) login.style.display = "none";
-  if (app) app.style.display = "block";
+  if (login) {
+    login.style.display = "none";
+  }
+
+  if (app) {
+    app.style.display = "block";
+  }
 
   alert("Login realizado com sucesso!");
 }
-
-
 function mostrarPainelAdministrador() {
   if (document.getElementById("painelUsuario")) return;
 
