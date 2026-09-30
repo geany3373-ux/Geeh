@@ -1,11 +1,11 @@
-const CACHE = "fox-protege-v1";
+const CACHE = "fox-protege-login-v10";
 
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
   "./icon-192.png",
-  "./icon-512-1.png"
+  "./icon-512.png"
 ];
 
 self.addEventListener("install", event => {
@@ -20,7 +20,7 @@ self.addEventListener("activate", event => {
     caches.keys().then(keys =>
       Promise.all(
         keys
-          .filter(key => key !== CACHE)
+          .filter(key => key.startsWith("fox-protege-") && key !== CACHE)
           .map(key => caches.delete(key))
       )
     )
@@ -29,6 +29,18 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
+  if (event.request.method !== "GET") return;
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request).then(response => {
+        if (!response.ok) throw new Error("Página indisponível");
+        const copy = response.clone();
+        event.waitUntil(caches.open(CACHE).then(cache => cache.put("./index.html", copy)));
+        return response;
+      }).catch(() => caches.match("./index.html"))
+    );
+    return;
+  }
   event.respondWith(
     caches.match(event.request).then(response => {
       return response || fetch(event.request);
